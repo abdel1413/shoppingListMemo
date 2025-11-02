@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import './App.css'
+
 
 const Items = [
   "Apples",
@@ -17,8 +18,19 @@ const Items = [
 
 function App() {
   const [query, setQuery] = useState('') 
+  const [selectedItems, setSelectedItems] = useState([])
 
+  //use memo to memoize the filtered items
+const filteredItems = useMemo(()=> Items.filter(item => {
+  console.log('Filtering items...')
+  return item.toLowerCase().includes(query.toLowerCase())}), [query])
   
+//use callback to memoize the function
+const toggleItem =useCallback((item)=>{
+  setSelectedItems((prev)=>prev.includes(item)
+  ? prev.filter(i =>i !==item)
+  : [...prev, item])},[setSelectedItems])
+      
   return (
     <>
       <div className="container">
@@ -36,9 +48,18 @@ function App() {
            
         </form>
         <ul>
-          {Items.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))
+          {filteredItems.map((item, index) => {
+             const isChecked = selectedItems.includes(item)
+            return (
+                  <li key={index}
+                   style={{textDecoration: isChecked? "line-through": "none"}}>
+                    <input type='checkbox'
+                    checked={isChecked}
+                     onChange={()=>toggleItem(item)}/>
+                    {item}
+                    </li>
+          
+                )})
           }
         </ul>
       </div>
