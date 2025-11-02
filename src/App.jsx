@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 
 import './App.css'
+import { CurrencyConverter } from './currencyconverterComp/CurrencyConverter'
 
 
 const Items = [
@@ -34,7 +35,7 @@ const toggleItem =useCallback((item)=>{
   return (
     <>
       <div className="container">
-          <h2>Welcome to the Grocery Store</h2>
+          <h2 style={{textAlign: 'center'}}>Welcome to the Grocery Store</h2>
         <form>
            <label htmlFor="search">Search an Item </label>
         <input it='search'
@@ -63,7 +64,10 @@ const toggleItem =useCallback((item)=>{
           }
         </ul>
       </div>
-     
+     <div>
+    
+      <CurrencyConverter />
+     </div>
     </>
   )
 }
